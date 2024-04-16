@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Style</title>
+</head>
+
+<body>
+    <h1>Select Style</h1>
+    <form action="/stylefilter" method="post">
+        <label for="style">Select a style:</label>
+        <select name="style" id="style">
+            {% for style in styles %}
+            <option value="{{ style }}">{{ style }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Filter</button>
+    </form>
+</body>
+
+</html>

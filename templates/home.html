@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Options</title>
+    <style>
+        body {
+            text-align: center;
+            /* Center align text */
+        }
+
+        .banner {
+            background-color: #e87b0e;
+            /* Set background color for the banner */
+            color: #000000;
+            /* Set text color for the banner */
+            padding: 20px;
+            /* Add padding for better visibility */
+        }
+
+        .button-container {
+            margin-top: 20px;
+            /* Add space between banner and buttons */
+        }
+
+        .button-container button {
+            margin: 10px;
+            /* Add space between buttons */
+        }
+
+        .button-container a {
+            text-decoration: none;
+            /* Remove underline from links */
+            color: #fff;
+            /* Set text color for links */
+            background-color: #007bff;
+            /* Set background color for links */
+            padding: 10px 20px;
+            /* Add padding for better visibility */
+            border: none;
+            /* Remove default button border */
+            border-radius: 5px;
+            /* Add border radius for better appearance */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="banner">
+        <h1>Welcome to Yeast Buddy!!!</h1>
+        <p>This website was designed to help you pick the right strain for your beer.</p>
+    </div>
+    <div class="button-container">
+        <form action="/stylefilter" method="get">
+            <button type="submit">Filter Yeast Strain by Style</button>
+        </form>
+        <form action="/supplier" method="get">
+            <button type="submit">View Suppliers</button>
+        </form>
+        <p>Curious what else you could make with a strain of yeast? Check it out here!</p>
+        <form action="/strainfilter" method="get">
+            <button type="submit">Filter Strain by Style</button>
+        </form>
+        <p>Want to see all the strains in the database?</p>
+        <form action="/globallist" method="get">
+            <button type="submit">Global List</button>
+        </form>
+    </div>
+</body>
+
+</html>
