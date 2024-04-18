@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Style</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <h1>Select Style</h1>
+    <form id="styleForm">
+        <label for="style">Select a style:</label>
+        <select name="style" id="style">
+            <!-- Options will be populated dynamically using JavaScript -->
+        </select>
+        <button type="submit">Filter</button>
+    </form>
+    <div id="results"></div>
+
+    <script>
+        $(document).ready(function () {
+            // Fetch available styles from the server
+            $.get('/styles', function (data) {
+                var styles = data.styles;
+                var select = $('#style');
+                $.each(styles, function (index, style) {
+                    select.append($('<option></option>').val(style).text(style));
+                });
+            });
+
+            // Submit form via AJAX when button is clicked
+            $('#styleForm').submit(function (event) {
+                event.preventDefault();
+                var style = $('#style').val();
+                $.post('/stylefilter', { style: style }, function (data) {
+                    $('#results').html(JSON.stringify(data));
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

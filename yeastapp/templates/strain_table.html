@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strain Filter</title>
+</head>
+
+<body>
+    <h1>Strain Filter</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Strain</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for strain in strains %}
+            <tr>
+                <td>{{ strain }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+
+</html>

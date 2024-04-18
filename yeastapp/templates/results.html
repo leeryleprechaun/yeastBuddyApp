@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filtered Results</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Filtered Results</h1>
+    <table>
+        <tr>
+            <th>Strain</th>
+            <th>Name</th>
+            <th>Supplier</th>
+            <th>Attenuation</th>
+            <th>Flocculation</th>
+            <th>Fermentation Temperature</th>
+            <th>Alcohol Tolerance</th>
+            <th>STA+</th>
+            <th>Description</th>
+        </tr>
+        {% for item in supplier_list %}
+        <tr>
+            <td>{{ item.Strain }}</td>
+            <td>{{ item.Strain_Name }}</td>
+            <td>{{ item.Supplier }}</td>
+            <td>{{ item.Attenuation }}</td>
+            <td>{{ item.Flocculation }}</td>
+            <td>{{ item.Fermentation_Temperature }}</td>
+            <td>{{ item.Alcohol_Tolerance }}</td>
+            <td>{{ item['STA+'] }}</td>
+            <td>{{ item.Description }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+
+</html>

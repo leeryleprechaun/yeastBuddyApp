@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results for {{ style }}</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 5px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Results for {{ style }}</h1>
+    <table id="resultsTable">
+        <thead>
+            <tr>
+                <th>Strain <button onclick="sortTableByStrain()">Sort</button></th>
+                <th>Description <input type="text" id="descriptionFilter" oninput="filterTable()"></th>
+                <th>Supplier <select id="supplierFilter" onchange="filterTable()">
+                        <option value="">All Suppliers</option>
+                    </select>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for strain in strains %}
+            <tr>
+                <td><a href="/strain/{{ strain.Strain }}">{{ strain.Strain }}</a></td>
+                <td>{{ strain.Description }}</td>
+                <td>{{ strain.Supplier }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script>
+        // Get the input elements
+        var descriptionFilterInput = document.getElementById('descriptionFilter');
+        var supplierFilterInput = document.getElementById('supplierFilter');
+        var rows = document.querySelectorAll('#resultsTable tbody tr');
+        var supplierOptions = [];
+
+        // Populate supplier dropdown
+        rows.forEach(function (row) {
+            var supplier = row.cells[2].textContent;
+            if (!supplierOptions.includes(supplier)) {
+                supplierOptions.push(supplier);
+                var option = document.createElement('option');
+                option.text = supplier;
+                option.value = supplier;
+                supplierFilterInput.add(option);
+            }
+        });
+
+        // Sorting function for strain column
+        function sortTableByStrain() {
+            var tbody = document.querySelector('#resultsTable tbody');
+            var rowsArray = Array.from(rows);
+
+            rowsArray.sort(function (rowA, rowB) {
+                var strainA = rowA.cells[0].textContent.toUpperCase();
+                var strainB = rowB.cells[0].textContent.toUpperCase();
+                return strainA.localeCompare(strainB);
+            });
+
+            tbody.innerHTML = '';
+            rowsArray.forEach(function (row) {
+                tbody.appendChild(row);
+            });
+        }
+
+        // Filtering function for description and supplier columns
+        function filterTable() {
+            var descriptionFilterValue = descriptionFilterInput.value.toUpperCase();
+            var supplierFilterValue = supplierFilterInput.value.toUpperCase();
+
+            rows.forEach(function (row) {
+                var description = row.cells[1].textContent.toUpperCase();
+                var supplier = row.cells[2].textContent.toUpperCase();
+
+                if ((description.indexOf(descriptionFilterValue) > -1 || descriptionFilterValue === '') &&
+                    (supplier === supplierFilterValue || supplierFilterValue === '')) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

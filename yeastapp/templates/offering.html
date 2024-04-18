@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ supplier }} Offerings</title>
+</head>
+
+<body>
+    <h1>{{ supplier }} Offerings</h1>
+    <ul>
+        {% for offering in offerings %}
+        <li>{{ offering }}</li>
+        {% endfor %}
+    </ul>
+</body>
+
+</html>
+
+Finally, modify the supplier.html template to make each button link to the offerings page with the selected supplier:
+
+html
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suppliers</title>
+</head>
+
+<body>
+    <h1>Possible Suppliers</h1>
+    <div>
+        {% for supplier in suppliers %}
+        <a href="{{ url_for('supplier_offerings', supplier_name=supplier) }}"><button>{{ supplier }}</button></a>
+        {% endfor %}
+    </div>
+</body>
+
+</html>
