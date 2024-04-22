@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Price Result</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        .result-box {
+            max-width: 400px;
+            /* Set maximum width */
+            margin: 20px auto;
+            /* Center the box horizontally */
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            /* Use flexbox layout */
+            flex-direction: column;
+            /* Stack child elements vertically */
+            align-items: center;
+            /* Center child elements horizontally */
+            margin-bottom: 20px;
+            /* Add space between boxes */
+        }
+
+        .logo {
+            max-width: 100px;
+            margin-bottom: 20px;
+        }
+
+        /* Center text in the heading */
+        h2 {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Price and Size Results</h2>
+    <h2>All Pricing is ESTIMATED from information</h2>
+    <h2>based on the suppliers webpage.</h2>
+    <h2>{{ result }} total cells needed</h2>
+    <div class="result-box">
+        <img src="/static/logos/Brewing Science Institute.png" alt="Your Logo" class="logo">
+        <h2>BSI sells "Pitchables" containing 7 million cells per mL when pitched</h2>
+        <p>BSI Order Size: {{ bsiSize }} Pitchable</p>
+        <p>BSI Order Price: <a href="http://www.brewingscience.com">{{ bsiPrice }}</a></p>
+    </div>
+
+    <div class="result-box">
+        <img src="/static/logos/Imperial.png" alt="Imperial Logo" class="logo">
+        <h2>Imperial sells yeast by the half Liter, with each liter containing 1.29 Trillion cells</h2>
+        <p>Imperial Order Size: {{ imperialSize }} liters</p>
+        <p>Imperial Order Price: <a href="http://www.imperialyeast.com">{{ imperialPrice }}</a></p>
+    </div>
+
+    <div class="result-box">
+        <img src="/static/logos/Inland Island.png" alt="Inland Island Logo" class="logo">
+        <h2>Inland Island sells yeast in "Pitchables" with each containg 11.25 millions cells per mL when pitched </h2>
+        <p>Inland Island Order Size: {{ inlandIslandSize }} pitchable</p>
+        <p>Inland Island Order Price: <a href="http://www.inlandislandsyeast.com">{{ inlandIslandPrice }}</a></p>
+    </div>
+
+    <div class="result-box">
+        <img src="/static/logos/Omega.png" alt="Omega Logo" class="logo">
+        <h2>Omega uses a chart for Order Sizing, price estimate based on 12 million cells per mL
+            pitchable</h2>
+        <p><a href="https://omegayeast.com/uploads/downloads/OYL-Price-Chart.pdf"> Chart</a></p>
+        <p>Omega Order Size: {{ omegaSize }} Barrels</p>
+        <p>Omega Order Price: <a href="http://www.omegayeast.com">{{ omegaPrice }}</a></p>
+    </div>
+
+    <div class="result-box">
+        <img src="/static/logos/Propagate Lab.png" alt="Propagate Lab Logo" class="logo">
+        <h2>Propagate Lab sells yeast in "Pitchables" with each containg 11.25 millions cells per mL when pitched </h2>
+        <p>Propagate Order Size: {{ propagateSize }} pitchables</p>
+        <p>Propagate Order Price: <a href="http://www.propagatelab.com">{{ propagatePrice }}</a></p>
+    </div>
+
+    <div class="result-box">
+        <img src="/static/logos/White Labs.png" alt="White Labs Logo" class="logo">
+        <h2>White Labs sells yeast by pre-measured packages or by the liter, pricing is shown by the liter</a></h2>
+        <p>White Labs Order Size: Unknown</p>
+        <p>White Labs Order Price: <a href="http://www.whitelabs.com">Unknown</a></p>
+    </div>
+
+    <div class="result-box">
+        <img src="/static/logos/Wyeast.png" alt="Wyeast Logo" class="logo">
+        <h2>Wyeast sells yeast by the half liter, with each liter containing 500,000 cells</h2>
+        <p>Wyeast Order Size: {{ yeastSize }} liters</p>
+        <p>Wyeast Order Price: <a href="http://www.wyeastlab.com">"Not Available"</a></p>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yeast Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        input {
+            width: 150px;
+            padding: 8px;
+            margin: 5px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Center the button */
+        .center {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            /* Display the items vertically */
+            align-items: center;
+            /* Center items horizontally */
+        }
+
+        /* Logo styling */
+        #logo {
+            width: 150px;
+            /* Adjust width as needed */
+            height: auto;
+            /* Maintain aspect ratio */
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Enter Details</h2>
+    <form method="post">
+        Size: <input type="text" name="size"><br>
+        Rate: <input type="text" name="rate"><br>
+        Plato: <input type="text" name="plato"><br>
+        <input type="submit" value="Calculate">
+    </form>
+</body>
+
+</html>

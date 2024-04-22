@@ -13,6 +13,13 @@ cluster = MongoClient(
 db = cluster["MSDS_696"]
 collection_yeast = db["yeast"]
 collection_style = db["style"]
+bsiPrice = db["bsiPrice"]
+imperialPrice = db["imperialPrice"]
+inlandIslandPrice = db["inlandIslandPrice"]
+omegaPrice = db["omegaPrice"]
+propagatePrice = db["propagatePrice"]
+whiteLabsPrice = db["whiteLabsPrice"]
+wyeastPrice = db["wyeastPrice"]
 
 
 app = Flask(__name__)
@@ -39,7 +46,7 @@ def supplier():
     supplier_list = collection_yeast.distinct("Supplier")
 
     # Pass supplier data to the template for rendering
-    return render_template("supplier2.html", suppliers=supplier_list)
+    return render_template("supplier.html", suppliers=supplier_list)
 
 
 @app.route("/supplier/<supplier_name>")
@@ -59,7 +66,9 @@ def bsi():
     bsi_list = list(bsi)
     # return json.dumps(omega_list, default=json_util.default)
     # return jsonify(omega_list)
-    return render_template("results.html", supplier_list=bsi_list)
+    return render_template(
+        "results.html", supplier_list=bsi_list, supplier="Brewing Science Institute"
+    )
 
 
 @app.route("/supplier/Imperial", methods=["GET"])
@@ -68,7 +77,9 @@ def find_imperial():
     imperial_list = list(imperial)
     # return json.dumps(omega_list, default=json_util.default)
     # return jsonify(omega_list)
-    return render_template("results.html", supplier_list=imperial_list)
+    return render_template(
+        "results.html", supplier_list=imperial_list, supplier="Imperial Yeast"
+    )
 
 
 @app.route("/supplier/Inland Island", methods=["GET"])
@@ -77,7 +88,9 @@ def find_inland_island():
     inland_island_list = list(inland_island)
     # return json.dumps(omega_list, default=json_util.default)
     # return jsonify(omega_list)
-    return render_template("results.html", supplier_list=inland_island_list)
+    return render_template(
+        "results.html", supplier_list=inland_island_list, supplier="Inland Island"
+    )
 
 
 @app.route("/supplier/Omega", methods=["GET"])
@@ -86,7 +99,7 @@ def find_omega():
     omega_list = list(omega)
     # return json.dumps(omega_list, default=json_util.default)
     # return jsonify(omega_list)
-    return render_template("results.html", supplier_list=omega_list)
+    return render_template("results.html", supplier_list=omega_list, supplier="Omega")
 
 
 @app.route("/supplier/Propagate Lab", methods=["GET"])
@@ -95,7 +108,9 @@ def find_propagate_lab():
     propagate_lab_list = list(propagate_lab)
     # return json.dumps(omega_list, default=json_util.default)
     # return jsonify(omega_list)
-    return render_template("results.html", supplier_list=propagate_lab_list)
+    return render_template(
+        "results.html", supplier_list=propagate_lab_list, supplier="Propagate Lab"
+    )
 
 
 @app.route("/supplier/Wyeast", methods=["GET"])
@@ -104,7 +119,7 @@ def find_wyeast():
     wyeast_list = list(wyeast)
     # return json.dumps(omega_list, default=json_util.default)
     # return jsonify(omega_list)
-    return render_template("results.html", supplier_list=wyeast_list)
+    return render_template("results.html", supplier_list=wyeast_list, supplier="Wyeast")
 
 
 @app.route("/supplier/White Labs", methods=["GET"])
@@ -113,7 +128,9 @@ def find_white_labs():
     white_labs_list = list(white_labs)
     # return json.dumps(omega_list, default=json_util.default)
     # return jsonify(omega_list)
-    return render_template("results.html", supplier_list=white_labs_list)
+    return render_template(
+        "results.html", supplier_list=white_labs_list, supplier="White Labs"
+    )
 
 
 @app.route("/stylefilter", methods=["GET", "POST"])
@@ -207,6 +224,70 @@ def search_styles():
     return render_template(
         "styles_table.html", selected_strain=selected_strain, styles=styles
     )
+
+
+@app.route("/calculator", methods=["GET", "POST"])
+def price():
+    if request.method == "POST":
+        # Get user inputs from the form
+        size = float(request.form["size"])
+        rate = float(request.form["rate"])
+        plato = float(request.form["plato"])
+
+        # Calculate the result
+        result = size * rate * plato
+        bsiSize = round(result / 7000000)
+        imperialSize = round(result / 12900000)
+        inlandIslandSize = round(result / 11250000)
+        omegaSize = round(result / 12000000)
+        propagateSize = round(result / 11250000)
+        whiteLabsSize = round(result / 1)
+        wyeastSize = round(result / 500000)
+
+        # Query the MongoDB collection for the corresponding price
+        bsiPrice = db.bsiPrice.find_one({"Barrel": bsiSize})
+        bsiPrice = bsiPrice["BSI"]
+
+        imperialPrice = db.imperialPrice.find_one({"Liter": imperialSize})
+        imperialPrice = imperialPrice["Imperial"]
+
+        inlandIslandPrice = db.inlandIslandPrice.find_one({"Barrel": inlandIslandSize})
+        inlandIslandPrice = inlandIslandPrice["Inland"]
+
+        omegaPrice = db.omegaPrice.find_one({"size": omegaSize})
+        omegaPrice = omegaPrice["Omega"]
+
+        propagatePrice = db.propagatePrice.find_one({"pitchable": propagateSize})
+        propagatePrice = propagatePrice["price"]
+
+        # whiteLabsPrice = db.whiteLabsPrice.find_one({"Ounce": whiteLabsSize})
+        # whiteLabsPrice = whiteLabsPrice["White Labs"]
+
+        # wyeastPrice = db.wyeastPrice.find_one({"Ounce": wyeastSize})
+        # wyeastPrice = wyeastPrice["Wyeast"]
+
+        # Render the result template with the result
+
+        return render_template(
+            "price_result.html",
+            result=result,
+            propagatePrice=propagatePrice,
+            propagateSize=propagateSize,
+            omegaPrice=omegaPrice,
+            omegaSize=omegaSize,
+            bsiPrice=bsiPrice,
+            bsiSize=bsiSize,
+            imperialPrice=imperialPrice,
+            imperialSize=imperialSize,
+            inlandIslandPrice=inlandIslandPrice,
+            inlandIslandSize=inlandIslandSize,
+            whiteLabsPrice=whiteLabsPrice,
+            whiteLabsSize=whiteLabsSize,
+            wyeastSize=wyeastSize,
+            wyeastPrice=wyeastPrice,
+        )
+
+    return render_template("price_form.html")
 
 
 if __name__ == "__main__":

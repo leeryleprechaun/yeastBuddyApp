@@ -5,14 +5,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Suppliers</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .content {
+            text-align: center;
+        }
+
+        .supplier-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .supplier-logo {
+            max-width: 100px;
+            max-height: 100px;
+        }
+    </style>
 </head>
 
 <body>
-    <h1>Possible Suppliers</h1>
-    <div>
-        {% for supplier in suppliers %}
-        <a href="{{ url_for('supplier_offerings', supplier_name=supplier) }}"><button>{{ supplier }}</button></a>
-        {% endfor %}
+    <div class="content">
+        <h1>Craft Brewing Yeast Suppliers</h1>
+        <div class="supplier-container">
+            {% for supplier in suppliers %}
+            <a href="{{ url_for('supplier_offerings', supplier_name=supplier) }}">
+                <img class="supplier-logo" src="{{ url_for('static', filename='logos/' + supplier + '.png') }}"
+                    alt="{{ supplier }} Logo">
+            </a>
+            {% endfor %}
+        </div>
     </div>
 </body>
 
