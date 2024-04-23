@@ -1,0 +1,8 @@
+runtime: python310 # Replace with your desired runtime (e.g., python3, java, go, etc.)
+
+handlers:
+- url: /static
+  static_dir: static
+
+- url: /.*
+  script: main.app

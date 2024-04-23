@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results for {{ style }}</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 5px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Results for {{ style }}</h1>
+    <table id="resultsTable">
+        <thead>
+            <tr>
+                <th>Strain <button onclick="sortTableByColumn(0)">Sort</button></th>
+                <th>Name</th>
+                <th>Description <input type="text" id="descriptionFilter" oninput="filterTable()"></th>
+                <th>Supplier <select id="supplierFilter" onchange="filterTable()">
+                        <option value="">All Suppliers</option>
+                    </select>
+                </th>
+                <th>Attenuation <button onclick="sortTableByColumn(4)">Sort</button></th>
+                <th>Flocculation <button onclick="sortTableByColumn(5)">Sort</button></th>
+                <th>Alcohol Tolerance <button onclick="sortTableByColumn(6)">Sort</button></th>
+                <th>Fermentation Temperature <button onclick="sortTableByColumn(7)">Sort</button></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for strain in strains %}
+            <tr>
+                <td><a href="/strain/{{ strain.Strain }}">{{ strain.Strain }}</a></td>
+                <td>{{ strain.Strain_Name }}</td>
+                <td>{{ strain.Description }}</td>
+                <td>{{ strain.Supplier }}</td>
+                <td>{{ strain.Attenuation }}</td>
+                <td>{{ strain.Flocculation }}</td>
+                <td>{{ strain.Alcohol_Tolerance }}</td>
+                <td>{{ strain.Fermentation_Temperature }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script>
+        // Get the input elements
+        var descriptionFilterInput = document.getElementById('descriptionFilter');
+        var supplierFilterInput = document.getElementById('supplierFilter');
+        var rows = document.querySelectorAll('#resultsTable tbody tr');
+        var supplierOptions = [];
+
+        // Populate supplier dropdown
+        rows.forEach(function (row) {
+            var supplier = row.cells[3].textContent;
+            if (!supplierOptions.includes(supplier)) {
+                supplierOptions.push(supplier);
+                var option = document.createElement('option');
+                option.text = supplier;
+                option.value = supplier;
+                supplierFilterInput.add(option);
+            }
+        });
+
+        // Define sort states for each column
+        var sortStates = {
+            0: 1, // Strain (default sorting order)
+            4: 1, // Attenuation (default sorting order)
+            5: 1, // Flocculation (default sorting order)
+            6: 1, // Alcohol Tolerance (default sorting order)
+            7: 1  // Fermentation Temperature (default sorting order)
+        };
+
+        // Sorting function for specified column index
+        function sortTableByColumn(columnIndex) {
+            var tbody = document.querySelector('#resultsTable tbody');
+            var rowsArray = Array.from(rows);
+
+            rowsArray.sort(function (rowA, rowB) {
+                var valueA = rowA.cells[columnIndex].textContent.toUpperCase();
+                var valueB = rowB.cells[columnIndex].textContent.toUpperCase();
+                if (!isNaN(parseFloat(valueA)) && !isNaN(parseFloat(valueB))) {
+                    // If both values are numeric, compare as numbers
+                    return sortStates[columnIndex] * (parseFloat(valueB) - parseFloat(valueA));
+                } else {
+                    // Otherwise, compare as strings
+                    return sortStates[columnIndex] * valueA.localeCompare(valueB);
+                }
+            });
+
+            tbody.innerHTML = '';
+            rowsArray.forEach(function (row) {
+                tbody.appendChild(row);
+            });
+
+            // Toggle sorting state for the column
+            sortStates[columnIndex] *= -1;
+        }
+
+        // Filtering function for description and supplier columns
+        function filterTable() {
+            var descriptionFilterValue = descriptionFilterInput.value.toUpperCase();
+            var supplierFilterValue = supplierFilterInput.value.toUpperCase();
+
+            rows.forEach(function (row) {
+                var description = row.cells[2].textContent.toUpperCase();
+                var supplier = row.cells[3].textContent.toUpperCase();
+
+                if ((description.indexOf(descriptionFilterValue) > -1 || descriptionFilterValue === '') &&
+                    (supplier === supplierFilterValue || supplierFilterValue === '')) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

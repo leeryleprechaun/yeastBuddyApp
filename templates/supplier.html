@@ -8,12 +8,12 @@
 </head>
 
 <body>
-    <h1>Suppliers</h1>
-    <ul>
+    <h1>Possible Suppliers</h1>
+    <div>
         {% for supplier in suppliers %}
-        <li><a href="/supplier/{{ supplier.name }}">{{ supplier.name }}</a></li>
+        <a href="{{ url_for('supplier_offerings', supplier_name=supplier) }}"><button>{{ supplier }}</button></a>
         {% endfor %}
-    </ul>
+    </div>
 </body>
 
 </html>
